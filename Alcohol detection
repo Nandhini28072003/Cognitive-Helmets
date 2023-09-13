@@ -1,0 +1,56 @@
+#include <LiquidCrystal.h>
+//const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(12,11,5,4,3,2);
+
+
+#define mq3 A0
+#define m 7
+#define b 8
+#define l 13
+
+float v;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(mq3, INPUT);
+  pinMode(m, OUTPUT);
+  pinMode(b, OUTPUT);
+  pinMode(l, OUTPUT);
+  lcd.begin(16, 2);
+  Serial.begin(9600);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+   v = analogRead(mq3);   
+  Serial.println("THE ALCOHOL LEVEL IS  ");
+  Serial.println(v);
+  if(v<250){
+    digitalWrite(m, HIGH);
+    digitalWrite(l, HIGH);
+  delay(1000);
+  lcd.setCursor(0, 2);
+      lcd.print("Normal...:)     ");
+  }
+  else if(v>250 && v<500)
+  {
+ digitalWrite(b, HIGH);
+ delay(1000);
+ digitalWrite(m, HIGH);
+ digitalWrite(l, HIGH);
+ lcd.setCursor(0, 2);
+      lcd.print("Please be Normal... :)");
+  }
+
+  else {
+    digitalWrite(m, LOW);
+    digitalWrite(l, LOW);
+    digitalWrite(b, LOW);
+    Serial.println("The engine will stop");
+  delay(1000);
+  lcd.setCursor(0, 2);
+    lcd.print("Alert....!!!");
+  }
+
+}
